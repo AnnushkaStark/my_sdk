@@ -26,7 +26,7 @@
 ## Установка
 
 ```bash
-uv add git+https://github.com<your-username>/my_sdk.git
+uv add git+https://github.com/AnnushkaStark/my_sdk.git
 ```
 
 ---
