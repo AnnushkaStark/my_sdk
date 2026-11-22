@@ -1,0 +1,3468 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="SDK для быстрой разработки асинхронных микросервисов на FastAPI">
+      
+      
+      
+      
+        <link rel="prev" href="../observability/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Утилиты, ошибки и типы - my_sdk — FastAPI Microservice Chassis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pydantic-" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="my_sdk — FastAPI Microservice Chassis" class="md-header__button md-logo" aria-label="my_sdk — FastAPI Microservice Chassis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            my_sdk — FastAPI Microservice Chassis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Утилиты, ошибки и типы
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Переключить на тёмную тему"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Переключить на тёмную тему" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Переключить на светлую тему"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Переключить на светлую тему" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../databases/" class="md-tabs__link">
+          
+  
+  
+  Справочник API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="my_sdk — FastAPI Microservice Chassis" class="md-nav__button md-logo" aria-label="my_sdk — FastAPI Microservice Chassis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    my_sdk — FastAPI Microservice Chassis
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Справочник API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Справочник API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../databases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Базы данных и кэш
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Репозитории и сервисы
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Интеграции и клиенты
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Наблюдаемость и Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Утилиты, ошибки и типы
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Утилиты, ошибки и типы
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#json-my_sdkutilslogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структурированный JSON-логгер (my_sdk.utils.logger)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;logger
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" logger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.LogFormatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LogFormatter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.ContextFilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ContextFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.Logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Logger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.get_default_logging_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_default_logging_config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.configure_default_logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;configure_default_logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi-my_sdkutilserrors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Декларативные ошибки FastAPI (my_sdk.utils.errors)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;errors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.ERROR_STATUS_MAP" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ERROR_STATUS_MAP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.Error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.BaseError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.DomainError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DomainError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.domain_error_exception_handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;domain_error_exception_handler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.create_response_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;create_response_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.errs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;errs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic-v2-my_sdkutilstypes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Валидируемые типы Pydantic v2 (my_sdk.utils.types)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.utils.types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.UniqueValuesList" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;UniqueValuesList
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.ValidPhone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ValidPhone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.LowerEmailStr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;LowerEmailStr
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.ValidPassword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ValidPassword
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.TitleString" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;TitleString
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.ContactStr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ContactStr
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.IsoformatDate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;IsoformatDate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.DateTimeIsoformat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;DateTimeIsoformat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.TimeIsoformat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;TimeIsoformat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.FileForm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;FileForm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.get_unique_values_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_unique_values_list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.normalize_phone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;normalize_phone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.get_lower_mail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_lower_mail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.validate_password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;validate_password
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.title_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;title_string
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.contact_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;contact_str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.get_date_iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_date_iso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.date_time_iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;date_time_iso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.time_iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;time_iso
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#json-my_sdkutilslogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структурированный JSON-логгер (my_sdk.utils.logger)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;logger
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" logger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.LogFormatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;LogFormatter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.ContextFilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ContextFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.Logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Logger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.get_default_logging_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_default_logging_config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.logger.configure_default_logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;configure_default_logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi-my_sdkutilserrors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Декларативные ошибки FastAPI (my_sdk.utils.errors)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;errors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.ERROR_STATUS_MAP" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ERROR_STATUS_MAP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.Error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.BaseError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;BaseError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.DomainError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DomainError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.domain_error_exception_handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;domain_error_exception_handler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.create_response_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;create_response_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.errors.errs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;errs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic-v2-my_sdkutilstypes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Валидируемые типы Pydantic v2 (my_sdk.utils.types)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.utils.types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.UniqueValuesList" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;UniqueValuesList
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.ValidPhone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ValidPhone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.LowerEmailStr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;LowerEmailStr
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.ValidPassword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ValidPassword
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.TitleString" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;TitleString
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.ContactStr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;ContactStr
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.IsoformatDate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;IsoformatDate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.DateTimeIsoformat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;DateTimeIsoformat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.TimeIsoformat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;TimeIsoformat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.FileForm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;FileForm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.get_unique_values_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_unique_values_list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.normalize_phone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;normalize_phone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.get_lower_mail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_lower_mail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.validate_password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;validate_password
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.title_string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;title_string
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.contact_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;contact_str
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.get_date_iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_date_iso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.date_time_iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;date_time_iso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.utils.types.time_iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;time_iso
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="pydantic-">Утилиты, логирование, ошибки и Pydantic-типы</h1>
+<h2 id="json-my_sdkutilslogger">Структурированный JSON-логгер (<code>my_sdk.utils.logger</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.utils.logger" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.utils.logger</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.utils.logger.LogFormatter" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">LogFormatter</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="logging.Formatter">Formatter</span></code></p>
+
+
+
+        <p>Экранирует поле msg в JSON, чтобы каждая запись лога оставалась в одну строку.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.utils.logger.ContextFilter" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ContextFilter</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="logging.Filter">Filter</span></code></p>
+
+
+
+        <p>Добавляет в запись лога request_id и безопасные значения по умолчанию для OpenTelemetry.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.utils.logger.Logger" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Logger</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Logger</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Контейнер разделённых логгеров для бизнес-событий и системных сообщений.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="my_sdk.utils.logger.Logger.app">app</span></code></td>
+            <td>
+                  <code><span title="logging.Logger">Logger</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Логгер приложения с контекстом запроса (<code>request_id</code>, <code>trace_id</code>, <code>span_id</code>).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="my_sdk.utils.logger.Logger.system">system</span></code></td>
+            <td>
+                  <code><span title="logging.Logger">Logger</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Системный логгер для инфраструктуры и фоновых процессов.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.logger.get_default_logging_config" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_default_logging_config</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_default_logging_config</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="s1">'INFO'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Формирует словарь конфигурации для <code>logging.config.dictConfig</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>log_level</code>
+            </td>
+            <td>
+                  <code><span title="my_sdk.utils.logger.LogLevel">LogLevel</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Минимальный уровень логирования (по умолчанию <code>"INFO"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;INFO&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Словарь конфигурации логгеров, хендлеров и форматтеров.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/logger.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-62"> 62</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-63"> 63</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-64"> 64</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-65"> 65</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-66"> 66</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-67"> 67</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-68"> 68</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-69"> 69</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-70"> 70</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-71"> 71</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-72"> 72</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-73"> 73</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-74"> 74</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-75"> 75</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-76"> 76</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-77"> 77</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-78"> 78</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-79"> 79</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-80"> 80</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-81"> 81</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-82"> 82</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-83"> 83</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-84"> 84</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-85"> 85</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-86"> 86</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-87"> 87</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-88"> 88</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-89"> 89</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-90"> 90</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-103">103</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-104">104</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-105">105</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-106">106</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-107">107</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-109">109</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-110">110</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-111">111</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-112">112</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-113">113</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-114">114</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-115">115</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-116">116</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-117">117</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-119">119</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-120">120</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-129">129</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-62" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-62"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_default_logging_config</span><span class="p">(</span><span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span> <span class="o">=</span> <span class="s2">"INFO"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-63" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-63"></a><span class="w">    </span><span class="sd">"""Формирует словарь конфигурации для `logging.config.dictConfig`.</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-64" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-64"></a>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-65" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-65"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-66" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-66"></a><span class="sd">        log_level: Минимальный уровень логирования (по умолчанию `"INFO"`).</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-67" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-67"></a>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-68" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-68"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-69" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-69"></a><span class="sd">        Словарь конфигурации логгеров, хендлеров и форматтеров.</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-70" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-70"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-71" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-71"></a>    <span class="k">return</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-72" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-72"></a>        <span class="s2">"version"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-73" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-73"></a>        <span class="s2">"disable_existing_loggers"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-74" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-74"></a>        <span class="s2">"filters"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-75" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-75"></a>            <span class="s2">"context"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"()"</span><span class="p">:</span> <span class="n">ContextFilter</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-76" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-76"></a>        <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-77" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-77"></a>        <span class="s2">"formatters"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-78" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-78"></a>            <span class="s2">"app"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-79" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-79"></a>                <span class="s2">"()"</span><span class="p">:</span> <span class="n">LogFormatter</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-80" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-80"></a>                <span class="s2">"format"</span><span class="p">:</span> <span class="n">_APP_FMT</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-81" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-81"></a>                <span class="s2">"datefmt"</span><span class="p">:</span> <span class="n">_DATE_FMT</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-82" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-82"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-83" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-83"></a>            <span class="s2">"system"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-84" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-84"></a>                <span class="s2">"()"</span><span class="p">:</span> <span class="n">LogFormatter</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-85" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-85"></a>                <span class="s2">"format"</span><span class="p">:</span> <span class="n">_SYSTEM_FMT</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-86" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-86"></a>                <span class="s2">"datefmt"</span><span class="p">:</span> <span class="n">_DATE_FMT</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-87" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-87"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-88" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-88"></a>        <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-89" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-89"></a>        <span class="s2">"handlers"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-90" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-90"></a>            <span class="s2">"stdout_app"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-91" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-91"></a>                <span class="s2">"class"</span><span class="p">:</span> <span class="s2">"logging.StreamHandler"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-92" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-92"></a>                <span class="s2">"stream"</span><span class="p">:</span> <span class="s2">"ext://sys.stdout"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-93" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-93"></a>                <span class="s2">"formatter"</span><span class="p">:</span> <span class="s2">"app"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-94" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-94"></a>                <span class="s2">"filters"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"context"</span><span class="p">],</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-95" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-95"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-96" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-96"></a>            <span class="s2">"stdout_system"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-97" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-97"></a>                <span class="s2">"class"</span><span class="p">:</span> <span class="s2">"logging.StreamHandler"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-98" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-98"></a>                <span class="s2">"stream"</span><span class="p">:</span> <span class="s2">"ext://sys.stdout"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-99" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-99"></a>                <span class="s2">"formatter"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-100" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-100"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-101" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-101"></a>            <span class="s2">"stderr"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-102" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-102"></a>                <span class="s2">"class"</span><span class="p">:</span> <span class="s2">"logging.StreamHandler"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-103" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-103"></a>                <span class="s2">"stream"</span><span class="p">:</span> <span class="s2">"ext://sys.stderr"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-104" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-104"></a>                <span class="s2">"formatter"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-105" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-105"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-106" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-106"></a>        <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-107" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-107"></a>        <span class="s2">"root"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-108" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-108"></a>            <span class="s2">"level"</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-109" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-109"></a>            <span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"stdout_system"</span><span class="p">],</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-110" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-110"></a>        <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-111" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-111"></a>        <span class="s2">"loggers"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-112" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-112"></a>            <span class="s2">"app"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-113" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-113"></a>                <span class="s2">"level"</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-114" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-114"></a>                <span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"stdout_app"</span><span class="p">],</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-115" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-115"></a>                <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-116" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-116"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-117" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-117"></a>            <span class="s2">"system"</span><span class="p">:</span> <span class="p">{</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-118" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-118"></a>                <span class="s2">"level"</span><span class="p">:</span> <span class="n">log_level</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-119" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-119"></a>                <span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"stdout_system"</span><span class="p">],</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-120" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-120"></a>                <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-121" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-121"></a>            <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-122" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-122"></a>            <span class="s2">"uvicorn"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-123" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-123"></a>            <span class="s2">"uvicorn.error"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"stderr"</span><span class="p">],</span> <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-124" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-124"></a>            <span class="s2">"uvicorn.access"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-125" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-125"></a>            <span class="s2">"gunicorn"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-126" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-126"></a>            <span class="s2">"gunicorn.error"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"stderr"</span><span class="p">],</span> <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-127" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-127"></a>            <span class="s2">"gunicorn.access"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"handlers"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"propagate"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-128" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-128"></a>        <span class="p">},</span>
+<a id="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-129" name="my_sdk.utils.logger.get_default_logging_config--source--__codelineno-0-129"></a>    <span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.logger.configure_default_logging" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">configure_default_logging</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">configure_default_logging</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="s1">'INFO'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Инициализирует стандартную конфигурацию логирования для микросервиса.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>log_level</code>
+            </td>
+            <td>
+                  <code><span title="my_sdk.utils.logger.LogLevel">LogLevel</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Минимальный уровень логирования (по умолчанию <code>"INFO"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;INFO&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/logger.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-138">138</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-132" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-132"></a><span class="k">def</span><span class="w"> </span><span class="nf">configure_default_logging</span><span class="p">(</span><span class="n">log_level</span><span class="p">:</span> <span class="n">LogLevel</span> <span class="o">=</span> <span class="s2">"INFO"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-133" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-133"></a><span class="w">    </span><span class="sd">"""Инициализирует стандартную конфигурацию логирования для микросервиса.</span>
+<a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-134" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-134"></a>
+<a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-135" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-135"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-136" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-136"></a><span class="sd">        log_level: Минимальный уровень логирования (по умолчанию `"INFO"`).</span>
+<a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-137" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-137"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-138" name="my_sdk.utils.logger.configure_default_logging--source--__codelineno-0-138"></a>    <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">get_default_logging_config</span><span class="p">(</span><span class="n">log_level</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="fastapi-my_sdkutilserrors">Декларативные ошибки FastAPI (<code>my_sdk.utils.errors</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.utils.errors" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.utils.errors</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.errors.ERROR_STATUS_MAP" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">ERROR_STATUS_MAP</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">ERROR_STATUS_MAP</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Глобальный реестр соответствия доменных кодов ошибок HTTP-статусам.</p>
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.utils.errors.Error" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Error</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+
+        <p>Базовая схема ответа об ошибке для OpenAPI-документации.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.utils.errors.BaseError" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">BaseError</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+
+        <p>Стандартная модель тела HTTP-ответа при возникновении ошибки.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.utils.errors.DomainError" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">DomainError</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">DomainError</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="Exception">Exception</span></code></p>
+
+
+
+        <p>Базовое доменное исключение бизнес-логики.</p>
+<p>Используется для выбрасывания типизированных ошибок из сервисного слоя
+с последующим автоматическим маппингом в HTTP-статусы.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="my_sdk.utils.errors.DomainError.code">code</span></code></td>
+            <td>
+                  <code><span title="enum.Enum">Enum</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Код ошибки из перечисления (<code>enum.Enum</code>), значение которого отдаётся клиенту.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+        <p>Инициализирует доменное исключение.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>code</code>
+            </td>
+            <td>
+                  <code><span title="enum.Enum">Enum</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Элемент перечисления с кодом/описанием ошибки.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>message</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Необязательное внутреннее сообщение для логов и отладки.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+                  <details class="mkdocstrings-source">
+                    <summary>Source code in <code>my_sdk/utils/errors.py</code></summary>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.DomainError--source--__codelineno-0-42">42</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-34" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-34"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-35" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-35"></a><span class="w">    </span><span class="sd">"""Инициализирует доменное исключение.</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-36" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-36"></a>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-37" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-37"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-38" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-38"></a><span class="sd">        code: Элемент перечисления с кодом/описанием ошибки.</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-39" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-39"></a><span class="sd">        message: Необязательное внутреннее сообщение для логов и отладки.</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-40" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-40"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-41" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-41"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+<a id="my_sdk.utils.errors.DomainError--source--__codelineno-0-42" name="my_sdk.utils.errors.DomainError--source--__codelineno-0-42"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+                  </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.errors.domain_error_exception_handler" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">domain_error_exception_handler</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">domain_error_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Глобальный обработчик исключений <code>DomainError</code> для FastAPI.</p>
+<p>Преобразует доменное исключение в JSON-ответ со статус-кодом из
+<code>ERROR_STATUS_MAP</code> (или <code>500</code>, если код не зарегистрирован).</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>request</code>
+            </td>
+            <td>
+                  <code><span title="fastapi.requests.Request">Request</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Входящий HTTP-запрос FastAPI.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>exc</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            DomainError (my_sdk.utils.errors.DomainError)" href="#my_sdk.utils.errors.DomainError">DomainError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Перехваченное доменное исключение.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="fastapi.responses.JSONResponse">JSONResponse</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>JSON-ответ формата <code>{"detail": "&lt;значение кода&gt;"}</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/errors.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-70">70</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-49" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-49"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">domain_error_exception_handler</span><span class="p">(</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-50" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-50"></a>    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-51" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-51"></a>    <span class="n">exc</span><span class="p">:</span> <span class="n">DomainError</span><span class="p">,</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-52" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-52"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSONResponse</span><span class="p">:</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-53" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-53"></a><span class="w">    </span><span class="sd">"""Глобальный обработчик исключений `DomainError` для FastAPI.</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-54" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-54"></a>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-55" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-55"></a><span class="sd">    Преобразует доменное исключение в JSON-ответ со статус-кодом из</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-56" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-56"></a><span class="sd">    `ERROR_STATUS_MAP` (или `500`, если код не зарегистрирован).</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-57" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-57"></a>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-58" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-58"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-59" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-59"></a><span class="sd">        request: Входящий HTTP-запрос FastAPI.</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-60" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-60"></a><span class="sd">        exc: Перехваченное доменное исключение.</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-61" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-61"></a>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-62" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-62"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-63" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-63"></a><span class="sd">        JSON-ответ формата `{"detail": "&lt;значение кода&gt;"}`.</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-64" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-64"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-65" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-65"></a>    <span class="n">status_code</span> <span class="o">=</span> <span class="n">ERROR_STATUS_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-66" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-66"></a>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-67" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-67"></a>    <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-68" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-68"></a>        <span class="n">status_code</span><span class="o">=</span><span class="n">status_code</span><span class="p">,</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-69" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-69"></a>        <span class="n">content</span><span class="o">=</span><span class="p">{</span><span class="s2">"detail"</span><span class="p">:</span> <span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">value</span><span class="p">},</span>
+<a id="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-70" name="my_sdk.utils.errors.domain_error_exception_handler--source--__codelineno-0-70"></a>    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.errors.create_response_schema" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">create_response_schema</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">create_response_schema</span><span class="p">(</span><span class="n">description</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Создаёт описание схемы ответа с ошибкой для декоратора роута FastAPI.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>description</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Текстовое описание возможных ошибок для OpenAPI/Swagger.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Словарь конфигурации ответа с моделью <code>BaseError</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/errors.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-83">83</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-84">84</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.create_response_schema--source--__codelineno-0-85">85</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-73" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-73"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_response_schema</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-74" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-74"></a><span class="w">    </span><span class="sd">"""Создаёт описание схемы ответа с ошибкой для декоратора роута FastAPI.</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-75" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-75"></a>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-76" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-76"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-77" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-77"></a><span class="sd">        description: Текстовое описание возможных ошибок для OpenAPI/Swagger.</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-78" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-78"></a>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-79" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-79"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-80" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-80"></a><span class="sd">        Словарь конфигурации ответа с моделью `BaseError`.</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-81" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-81"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-82" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-82"></a>    <span class="k">return</span> <span class="p">{</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-83" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-83"></a>        <span class="s2">"model"</span><span class="p">:</span> <span class="n">BaseError</span><span class="p">,</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-84" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-84"></a>        <span class="s2">"description"</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+<a id="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-85" name="my_sdk.utils.errors.create_response_schema--source--__codelineno-0-85"></a>    <span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.errors.errs" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">errs</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">errs</span><span class="p">(</span><span class="o">**</span><span class="n">_codes</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Генерирует словарь <code>responses</code> для эндпоинтов FastAPI из кодов ошибок.</p>
+<p>Позволяет декларативно описывать ошибки в роутах через именованные аргументы
+вида <code>e400=...</code>, <code>e404=...</code>, <code>e409=...</code> и автоматически проверяет, что один
+и тот же код ошибки не продублирован в разных HTTP-статусах.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>**_codes</code>
+            </td>
+            <td>
+                  <code><span title="enum.Enum">Enum</span> | <span title="collections.abc.Iterable">Iterable</span>[<span title="enum.Enum">Enum</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Именованные аргументы формата <code>e&lt;HTTP_STATUS&gt;</code>, принимающие
+один элемент <code>enum.Enum</code> или коллекцию таких элементов.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="int">int</span>, <span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Словарь формата <code>{status_code: {"model": BaseError, "description": ...}}</code></p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="dict">dict</span>[<span title="int">int</span>, <span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>для передачи в параметр <code>responses</code> роутера FastAPI.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="RuntimeError">RuntimeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Если один и тот же код ошибки передан более одного раза.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/errors.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-103">103</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-104">104</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-105">105</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-106">106</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-107">107</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-109">109</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-110">110</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-111">111</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-112">112</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-113">113</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-114">114</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-115">115</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-116">116</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-117">117</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-119">119</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-120">120</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#my_sdk.utils.errors.errs--source--__codelineno-0-132">132</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.errors.errs--source--__codelineno-0-93" name="my_sdk.utils.errors.errs--source--__codelineno-0-93"></a><span class="k">def</span><span class="w"> </span><span class="nf">errs</span><span class="p">(</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-94" name="my_sdk.utils.errors.errs--source--__codelineno-0-94"></a>    <span class="o">**</span><span class="n">_codes</span><span class="p">:</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">],</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-95" name="my_sdk.utils.errors.errs--source--__codelineno-0-95"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-96" name="my_sdk.utils.errors.errs--source--__codelineno-0-96"></a><span class="w">    </span><span class="sd">"""Генерирует словарь `responses` для эндпоинтов FastAPI из кодов ошибок.</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-97" name="my_sdk.utils.errors.errs--source--__codelineno-0-97"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-98" name="my_sdk.utils.errors.errs--source--__codelineno-0-98"></a><span class="sd">    Позволяет декларативно описывать ошибки в роутах через именованные аргументы</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-99" name="my_sdk.utils.errors.errs--source--__codelineno-0-99"></a><span class="sd">    вида `e400=...`, `e404=...`, `e409=...` и автоматически проверяет, что один</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-100" name="my_sdk.utils.errors.errs--source--__codelineno-0-100"></a><span class="sd">    и тот же код ошибки не продублирован в разных HTTP-статусах.</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-101" name="my_sdk.utils.errors.errs--source--__codelineno-0-101"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-102" name="my_sdk.utils.errors.errs--source--__codelineno-0-102"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-103" name="my_sdk.utils.errors.errs--source--__codelineno-0-103"></a><span class="sd">        **_codes: Именованные аргументы формата `e&lt;HTTP_STATUS&gt;`, принимающие</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-104" name="my_sdk.utils.errors.errs--source--__codelineno-0-104"></a><span class="sd">            один элемент `enum.Enum` или коллекцию таких элементов.</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-105" name="my_sdk.utils.errors.errs--source--__codelineno-0-105"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-106" name="my_sdk.utils.errors.errs--source--__codelineno-0-106"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-107" name="my_sdk.utils.errors.errs--source--__codelineno-0-107"></a><span class="sd">        Словарь формата `{status_code: {"model": BaseError, "description": ...}}`</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-108" name="my_sdk.utils.errors.errs--source--__codelineno-0-108"></a><span class="sd">        для передачи в параметр `responses` роутера FastAPI.</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-109" name="my_sdk.utils.errors.errs--source--__codelineno-0-109"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-110" name="my_sdk.utils.errors.errs--source--__codelineno-0-110"></a><span class="sd">    Raises:</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-111" name="my_sdk.utils.errors.errs--source--__codelineno-0-111"></a><span class="sd">        RuntimeError: Если один и тот же код ошибки передан более одного раза.</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-112" name="my_sdk.utils.errors.errs--source--__codelineno-0-112"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-113" name="my_sdk.utils.errors.errs--source--__codelineno-0-113"></a>    <span class="n">ret</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-114" name="my_sdk.utils.errors.errs--source--__codelineno-0-114"></a>    <span class="n">processed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-115" name="my_sdk.utils.errors.errs--source--__codelineno-0-115"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-116" name="my_sdk.utils.errors.errs--source--__codelineno-0-116"></a>    <span class="k">for</span> <span class="n">status_codes</span><span class="p">,</span> <span class="n">codes</span> <span class="ow">in</span> <span class="n">_codes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-117" name="my_sdk.utils.errors.errs--source--__codelineno-0-117"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">codes</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-118" name="my_sdk.utils.errors.errs--source--__codelineno-0-118"></a>            <span class="n">codes</span> <span class="o">=</span> <span class="p">(</span><span class="n">codes</span><span class="p">,)</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-119" name="my_sdk.utils.errors.errs--source--__codelineno-0-119"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-120" name="my_sdk.utils.errors.errs--source--__codelineno-0-120"></a>        <span class="n">codes_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-121" name="my_sdk.utils.errors.errs--source--__codelineno-0-121"></a>        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">codes_tuple</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">processed</span><span class="p">:</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-122" name="my_sdk.utils.errors.errs--source--__codelineno-0-122"></a>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Error codes duplicated"</span><span class="p">)</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-123" name="my_sdk.utils.errors.errs--source--__codelineno-0-123"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-124" name="my_sdk.utils.errors.errs--source--__codelineno-0-124"></a>        <span class="n">processed</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">codes_tuple</span><span class="p">)</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-125" name="my_sdk.utils.errors.errs--source--__codelineno-0-125"></a>        <span class="n">status_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">status_codes</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"e"</span><span class="p">))</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-126" name="my_sdk.utils.errors.errs--source--__codelineno-0-126"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-127" name="my_sdk.utils.errors.errs--source--__codelineno-0-127"></a>        <span class="n">ret</span><span class="p">[</span><span class="n">status_code</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-128" name="my_sdk.utils.errors.errs--source--__codelineno-0-128"></a>            <span class="s2">"model"</span><span class="p">:</span> <span class="n">BaseError</span><span class="p">,</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-129" name="my_sdk.utils.errors.errs--source--__codelineno-0-129"></a>            <span class="s2">"description"</span><span class="p">:</span> <span class="n">_format_description</span><span class="p">(</span><span class="n">codes_tuple</span><span class="p">),</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-130" name="my_sdk.utils.errors.errs--source--__codelineno-0-130"></a>        <span class="p">}</span>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-131" name="my_sdk.utils.errors.errs--source--__codelineno-0-131"></a>
+<a id="my_sdk.utils.errors.errs--source--__codelineno-0-132" name="my_sdk.utils.errors.errs--source--__codelineno-0-132"></a>    <span class="k">return</span> <span class="n">ret</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="pydantic-v2-my_sdkutilstypes">Валидируемые типы Pydantic v2 (<code>my_sdk.utils.types</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.utils.types" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.utils.types</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.UniqueValuesList" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">UniqueValuesList</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">UniqueValuesList</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">get_unique_values_list</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Список с автоматическим удалением дубликатов при валидации Pydantic.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.ValidPhone" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">ValidPhone</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">ValidPhone</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">normalize_phone</span><span class="p">)]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Валидированный номер телефона в стандарте E.164.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.LowerEmailStr" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">LowerEmailStr</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">LowerEmailStr</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">EmailStr</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">get_lower_mail</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Email-адрес, автоматически приведённый к нижнему регистру.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.ValidPassword" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">ValidPassword</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">ValidPassword</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="nb">str</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">validate_password</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Строка пароля, прошедшая проверку длины (8–128) и отсутствия пробельных символов.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.TitleString" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">TitleString</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">TitleString</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">title_string</span><span class="p">)]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Нормализованная строка в формате Title Case без пробелов и дефисов.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.ContactStr" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">ContactStr</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">ContactStr</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">contact_str</span><span class="p">)]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Универсальное контактное поле: нормализует либо email, либо телефон в E.164.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.IsoformatDate" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">IsoformatDate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">IsoformatDate</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">date</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">get_date_iso</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Дата, автоматически преобразуемая в ISO-строку (<code>YYYY-MM-DD</code>).</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.DateTimeIsoformat" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">DateTimeIsoformat</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DateTimeIsoformat</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">datetime</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">date_time_iso</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Дата и время, автоматически преобразуемые в ISO-строку.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.TimeIsoformat" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">TimeIsoformat</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">TimeIsoformat</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">time</span><span class="p">,</span> <span class="n">AfterValidator</span><span class="p">(</span><span class="n">time_iso</span><span class="p">)]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Время, автоматически преобразуемое в ISO-строку.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.utils.types.FileForm" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">FileForm</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">FileForm</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UploadFile</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">File</span><span class="p">()]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Аннотация для опциональной загрузки файла в multipart/form-data эндпоинтах FastAPI.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.get_unique_values_list" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_unique_values_list</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_unique_values_list</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Удаляет дубликаты из списка с сохранением порядка элементов.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-17" name="my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-17"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_unique_values_list</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">lst</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+<a id="my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-18" name="my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-18"></a><span class="w">    </span><span class="sd">"""Удаляет дубликаты из списка с сохранением порядка элементов."""</span>
+<a id="my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-19" name="my_sdk.utils.types.get_unique_values_list--source--__codelineno-0-19"></a>    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.normalize_phone" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">normalize_phone</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize_phone</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s1">'RU'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Проверяет номер телефона и приводим его к международному формату E.164.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>value</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Исходная строка с номером телефона.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>region</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Код региона по умолчанию (по умолчанию <code>"RU"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;RU&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Нормализованный номер в формате E.164 (например, <code>"+79991234567"</code>).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Если строка не является валидным номером телефона.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.normalize_phone--source--__codelineno-0-47">47</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-26" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-26"></a><span class="k">def</span><span class="w"> </span><span class="nf">normalize_phone</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"RU"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-27" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-27"></a><span class="w">    </span><span class="sd">"""Проверяет номер телефона и приводим его к международному формату E.164.</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-28" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-28"></a>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-29" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-29"></a><span class="sd">    Args:</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-30" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-30"></a><span class="sd">        value: Исходная строка с номером телефона.</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-31" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-31"></a><span class="sd">        region: Код региона по умолчанию (по умолчанию `"RU"`).</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-32" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-32"></a>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-33" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-33"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-34" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-34"></a><span class="sd">        Нормализованный номер в формате E.164 (например, `"+79991234567"`).</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-35" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-35"></a>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-36" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-36"></a><span class="sd">    Raises:</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-37" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-37"></a><span class="sd">        ValueError: Если строка не является валидным номером телефона.</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-38" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-38"></a><span class="sd">    """</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-39" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-39"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-40" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-40"></a>        <span class="n">parsed</span> <span class="o">=</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-41" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-41"></a>    <span class="k">except</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">NumberParseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-42" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-42"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid phone number: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-43" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-43"></a>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-44" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-44"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">is_valid_number</span><span class="p">(</span><span class="n">parsed</span><span class="p">):</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-45" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-45"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid phone number: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-46" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-46"></a>
+<a id="my_sdk.utils.types.normalize_phone--source--__codelineno-0-47" name="my_sdk.utils.types.normalize_phone--source--__codelineno-0-47"></a>    <span class="k">return</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">format_number</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="n">phonenumbers</span><span class="o">.</span><span class="n">PhoneNumberFormat</span><span class="o">.</span><span class="n">E164</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.get_lower_mail" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_lower_mail</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_lower_mail</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Приводит адрес электронной почты к нижнему регистру.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.get_lower_mail--source--__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.get_lower_mail--source--__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.get_lower_mail--source--__codelineno-0-56">56</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.get_lower_mail--source--__codelineno-0-54" name="my_sdk.utils.types.get_lower_mail--source--__codelineno-0-54"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_lower_mail</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EmailStr</span><span class="p">:</span>
+<a id="my_sdk.utils.types.get_lower_mail--source--__codelineno-0-55" name="my_sdk.utils.types.get_lower_mail--source--__codelineno-0-55"></a><span class="w">    </span><span class="sd">"""Приводит адрес электронной почты к нижнему регистру."""</span>
+<a id="my_sdk.utils.types.get_lower_mail--source--__codelineno-0-56" name="my_sdk.utils.types.get_lower_mail--source--__codelineno-0-56"></a>    <span class="k">return</span> <span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.validate_password" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">validate_password</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">validate_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Проверяет базовые требования к формату пароля (длина 8–128 символов, без пробелов).</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.validate_password--source--__codelineno-0-71">71</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.validate_password--source--__codelineno-0-63" name="my_sdk.utils.types.validate_password--source--__codelineno-0-63"></a><span class="k">def</span><span class="w"> </span><span class="nf">validate_password</span><span class="p">(</span><span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-64" name="my_sdk.utils.types.validate_password--source--__codelineno-0-64"></a><span class="w">    </span><span class="sd">"""Проверяет базовые требования к формату пароля (длина 8–128 символов, без пробелов)."""</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-65" name="my_sdk.utils.types.validate_password--source--__codelineno-0-65"></a>    <span class="k">if</span> <span class="p">(</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-66" name="my_sdk.utils.types.validate_password--source--__codelineno-0-66"></a>        <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-67" name="my_sdk.utils.types.validate_password--source--__codelineno-0-67"></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="mi">8</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">128</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-68" name="my_sdk.utils.types.validate_password--source--__codelineno-0-68"></a>        <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">isspace</span><span class="p">()</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">password</span><span class="p">)</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-69" name="my_sdk.utils.types.validate_password--source--__codelineno-0-69"></a>    <span class="p">):</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-70" name="my_sdk.utils.types.validate_password--source--__codelineno-0-70"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"invalid password format"</span><span class="p">)</span>
+<a id="my_sdk.utils.types.validate_password--source--__codelineno-0-71" name="my_sdk.utils.types.validate_password--source--__codelineno-0-71"></a>    <span class="k">return</span> <span class="n">password</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.title_string" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">title_string</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">title_string</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Очищает строку от пробелов/дефисов и приводит к Title Case.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.title_string--source--__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.title_string--source--__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.title_string--source--__codelineno-0-80">80</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.title_string--source--__codelineno-0-78" name="my_sdk.utils.types.title_string--source--__codelineno-0-78"></a><span class="k">def</span><span class="w"> </span><span class="nf">title_string</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.title_string--source--__codelineno-0-79" name="my_sdk.utils.types.title_string--source--__codelineno-0-79"></a><span class="w">    </span><span class="sd">"""Очищает строку от пробелов/дефисов и приводит к Title Case."""</span>
+<a id="my_sdk.utils.types.title_string--source--__codelineno-0-80" name="my_sdk.utils.types.title_string--source--__codelineno-0-80"></a>    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.contact_str" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">contact_str</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">contact_str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Определяет тип контакта (email или телефон) и нормализует его.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.contact_str--source--__codelineno-0-87">87</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.contact_str--source--__codelineno-0-88">88</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.contact_str--source--__codelineno-0-89">89</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.contact_str--source--__codelineno-0-90">90</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.contact_str--source--__codelineno-0-91">91</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.contact_str--source--__codelineno-0-87" name="my_sdk.utils.types.contact_str--source--__codelineno-0-87"></a><span class="k">def</span><span class="w"> </span><span class="nf">contact_str</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.contact_str--source--__codelineno-0-88" name="my_sdk.utils.types.contact_str--source--__codelineno-0-88"></a><span class="w">    </span><span class="sd">"""Определяет тип контакта (email или телефон) и нормализует его."""</span>
+<a id="my_sdk.utils.types.contact_str--source--__codelineno-0-89" name="my_sdk.utils.types.contact_str--source--__codelineno-0-89"></a>    <span class="k">if</span> <span class="s2">"@"</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+<a id="my_sdk.utils.types.contact_str--source--__codelineno-0-90" name="my_sdk.utils.types.contact_str--source--__codelineno-0-90"></a>        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="my_sdk.utils.types.contact_str--source--__codelineno-0-91" name="my_sdk.utils.types.contact_str--source--__codelineno-0-91"></a>    <span class="k">return</span> <span class="n">normalize_phone</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.get_date_iso" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_date_iso</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_date_iso</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Сериализует объект <code>date</code> в строку формата ISO 8601.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.get_date_iso--source--__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.get_date_iso--source--__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.get_date_iso--source--__codelineno-0-100">100</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.get_date_iso--source--__codelineno-0-98" name="my_sdk.utils.types.get_date_iso--source--__codelineno-0-98"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_date_iso</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.get_date_iso--source--__codelineno-0-99" name="my_sdk.utils.types.get_date_iso--source--__codelineno-0-99"></a><span class="w">    </span><span class="sd">"""Сериализует объект `date` в строку формата ISO 8601."""</span>
+<a id="my_sdk.utils.types.get_date_iso--source--__codelineno-0-100" name="my_sdk.utils.types.get_date_iso--source--__codelineno-0-100"></a>    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.date_time_iso" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">date_time_iso</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">date_time_iso</span><span class="p">(</span><span class="n">dt_time</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Сериализует объект <code>datetime</code> в строку формата ISO 8601.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.date_time_iso--source--__codelineno-0-107">107</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.date_time_iso--source--__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.date_time_iso--source--__codelineno-0-109">109</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.date_time_iso--source--__codelineno-0-107" name="my_sdk.utils.types.date_time_iso--source--__codelineno-0-107"></a><span class="k">def</span><span class="w"> </span><span class="nf">date_time_iso</span><span class="p">(</span><span class="n">dt_time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.date_time_iso--source--__codelineno-0-108" name="my_sdk.utils.types.date_time_iso--source--__codelineno-0-108"></a><span class="w">    </span><span class="sd">"""Сериализует объект `datetime` в строку формата ISO 8601."""</span>
+<a id="my_sdk.utils.types.date_time_iso--source--__codelineno-0-109" name="my_sdk.utils.types.date_time_iso--source--__codelineno-0-109"></a>    <span class="k">return</span> <span class="n">dt_time</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.utils.types.time_iso" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">time_iso</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">time_iso</span><span class="p">(</span><span class="n">tm</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Сериализует объект <code>time</code> в строку формата ISO 8601.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/utils/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.utils.types.time_iso--source--__codelineno-0-116">116</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.time_iso--source--__codelineno-0-117">117</a></span>
+<span class="normal"><a href="#my_sdk.utils.types.time_iso--source--__codelineno-0-118">118</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.utils.types.time_iso--source--__codelineno-0-116" name="my_sdk.utils.types.time_iso--source--__codelineno-0-116"></a><span class="k">def</span><span class="w"> </span><span class="nf">time_iso</span><span class="p">(</span><span class="n">tm</span><span class="p">:</span> <span class="n">time</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="my_sdk.utils.types.time_iso--source--__codelineno-0-117" name="my_sdk.utils.types.time_iso--source--__codelineno-0-117"></a><span class="w">    </span><span class="sd">"""Сериализует объект `time` в строку формата ISO 8601."""</span>
+<a id="my_sdk.utils.types.time_iso--source--__codelineno-0-118" name="my_sdk.utils.types.time_iso--source--__codelineno-0-118"></a>    <span class="k">return</span> <span class="n">tm</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

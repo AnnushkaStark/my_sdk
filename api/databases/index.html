@@ -1,0 +1,2441 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="SDK для быстрой разработки асинхронных микросервисов на FastAPI">
+      
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../architecture/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Базы данных и кэш - my_sdk — FastAPI Microservice Chassis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fastapi" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="my_sdk — FastAPI Microservice Chassis" class="md-header__button md-logo" aria-label="my_sdk — FastAPI Microservice Chassis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            my_sdk — FastAPI Microservice Chassis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Базы данных и кэш
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Переключить на тёмную тему"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Переключить на тёмную тему" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Переключить на светлую тему"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Переключить на светлую тему" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Справочник API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="my_sdk — FastAPI Microservice Chassis" class="md-nav__button md-logo" aria-label="my_sdk — FastAPI Microservice Chassis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    my_sdk — FastAPI Microservice Chassis
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Справочник API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Справочник API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Базы данных и кэш
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Базы данных и кэш
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-my_sdkdatabasespg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL (my_sdk.databases.pg)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;pg
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" pg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.PostgresSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;PostgresSettings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" PostgresSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.PostgresSettings.build_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;build_url
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.Base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.create_postgres_engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;create_postgres_engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.get_async_session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_async_session
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clickhouse-my_sdkdatabasesclickhouse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClickHouse (my_sdk.databases.clickhouse)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;clickhouse
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" clickhouse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse.ClickHouseSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ClickHouseSettings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ClickHouseSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_prefix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse.get_clickhouse_conn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_clickhouse_conn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redis-my_sdkdatabasesredis_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis (my_sdk.databases.redis_db)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;redis_db
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" redis_db">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db.RedisSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;RedisSettings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" RedisSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_prefix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db.get_redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi-depends-my_sdkdependssession" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FastAPI Depends (my_sdk.depends.session)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.depends.session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;session
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" session">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.depends.session.Session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.depends.session.get_async_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_async_db
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Репозитории и сервисы
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Интеграции и клиенты
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Наблюдаемость и Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Утилиты, ошибки и типы
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-my_sdkdatabasespg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL (my_sdk.databases.pg)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;pg
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" pg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.PostgresSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;PostgresSettings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" PostgresSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.PostgresSettings.build_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;build_url
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.Base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.create_postgres_engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;create_postgres_engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.pg.get_async_session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_async_session
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clickhouse-my_sdkdatabasesclickhouse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClickHouse (my_sdk.databases.clickhouse)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;clickhouse
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" clickhouse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse.ClickHouseSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ClickHouseSettings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ClickHouseSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_prefix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.clickhouse.get_clickhouse_conn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_clickhouse_conn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redis-my_sdkdatabasesredis_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis (my_sdk.databases.redis_db)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;redis_db
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" redis_db">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db.RedisSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;RedisSettings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" RedisSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_prefix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.databases.redis_db.get_redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi-depends-my_sdkdependssession" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FastAPI Depends (my_sdk.depends.session)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#my_sdk.depends.session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;session
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" session">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.depends.session.Session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#my_sdk.depends.session.get_async_db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_async_db
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fastapi">Базы данных, кэш и зависимости FastAPI</h1>
+<h2 id="postgresql-my_sdkdatabasespg">PostgreSQL (<code>my_sdk.databases.pg</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.databases.pg" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.databases.pg</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.databases.pg.PostgresSettings" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">PostgresSettings</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic_settings.BaseSettings">BaseSettings</span></code></p>
+
+
+
+        <p>Настройки подключения к PostgreSQL, загружаемые из переменных окружения.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="my_sdk.databases.pg.PostgresSettings.build_url" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">build_url</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">build_url</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Формирует безопасный URL подключения для <code>asyncpg</code>.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/pg.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-43">43</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-34" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-34"></a><span class="k">def</span><span class="w"> </span><span class="nf">build_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">URL</span><span class="p">:</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-35" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-35"></a><span class="w">    </span><span class="sd">"""Формирует безопасный URL подключения для `asyncpg`."""</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-36" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-36"></a>    <span class="k">return</span> <span class="n">URL</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-37" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-37"></a>        <span class="n">drivername</span><span class="o">=</span><span class="s2">"postgresql+asyncpg"</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-38" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-38"></a>        <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-39" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-39"></a>        <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PASSWORD</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-40" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-40"></a>        <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HOST</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-41" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-41"></a>        <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PORT</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-42" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-42"></a>        <span class="n">database</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DB</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-43" name="my_sdk.databases.pg.PostgresSettings.build_url--source--__codelineno-0-43"></a>    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.databases.pg.Base" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Base</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="sqlalchemy.orm.DeclarativeBase">DeclarativeBase</span></code></p>
+
+
+
+        <p>Базовый декларативный класс моделей SQLAlchemy с маппингом списков в <code>ARRAY</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.databases.pg.create_postgres_engine" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">create_postgres_engine</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">create_postgres_engine</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">pool_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">max_overflow</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="o">**</span><span class="n">engine_kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Создаёт асинхронный <code>AsyncEngine</code> для PostgreSQL из переменных окружения.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/pg.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-72">72</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-56" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-56"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_postgres_engine</span><span class="p">(</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-57" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-57"></a>    <span class="n">settings</span><span class="p">:</span> <span class="n">PostgresSettings</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-58" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-58"></a>    <span class="n">pool_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-59" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-59"></a>    <span class="n">max_overflow</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-60" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-60"></a>    <span class="n">echo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-61" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-61"></a>    <span class="o">**</span><span class="n">engine_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-62" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-62"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncEngine</span><span class="p">:</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-63" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-63"></a><span class="w">    </span><span class="sd">"""Создаёт асинхронный `AsyncEngine` для PostgreSQL из переменных окружения."""</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-64" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-64"></a>    <span class="n">cfg</span> <span class="o">=</span> <span class="n">settings</span> <span class="ow">or</span> <span class="n">PostgresSettings</span><span class="p">()</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-65" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-65"></a>    <span class="k">return</span> <span class="n">create_async_engine</span><span class="p">(</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-66" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-66"></a>        <span class="n">url</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">build_url</span><span class="p">(),</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-67" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-67"></a>        <span class="n">pool_size</span><span class="o">=</span><span class="n">pool_size</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-68" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-68"></a>        <span class="n">max_overflow</span><span class="o">=</span><span class="n">max_overflow</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-69" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-69"></a>        <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-70" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-70"></a>        <span class="n">pool_pre_ping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-71" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-71"></a>        <span class="o">**</span><span class="n">engine_kwargs</span><span class="p">,</span>
+<a id="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-72" name="my_sdk.databases.pg.create_postgres_engine--source--__codelineno-0-72"></a>    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.databases.pg.get_async_session" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_async_session</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_async_session</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Предоставляет асинхронную сессию SQLAlchemy на время обработки запроса.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/pg.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.pg.get_async_session--source--__codelineno-0-84">84</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.get_async_session--source--__codelineno-0-85">85</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.get_async_session--source--__codelineno-0-86">86</a></span>
+<span class="normal"><a href="#my_sdk.databases.pg.get_async_session--source--__codelineno-0-87">87</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.pg.get_async_session--source--__codelineno-0-84" name="my_sdk.databases.pg.get_async_session--source--__codelineno-0-84"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_async_session</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<a id="my_sdk.databases.pg.get_async_session--source--__codelineno-0-85" name="my_sdk.databases.pg.get_async_session--source--__codelineno-0-85"></a><span class="w">    </span><span class="sd">"""Предоставляет асинхронную сессию SQLAlchemy на время обработки запроса."""</span>
+<a id="my_sdk.databases.pg.get_async_session--source--__codelineno-0-86" name="my_sdk.databases.pg.get_async_session--source--__codelineno-0-86"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">async_session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<a id="my_sdk.databases.pg.get_async_session--source--__codelineno-0-87" name="my_sdk.databases.pg.get_async_session--source--__codelineno-0-87"></a>        <span class="k">yield</span> <span class="n">session</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="clickhouse-my_sdkdatabasesclickhouse">ClickHouse (<code>my_sdk.databases.clickhouse</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.databases.clickhouse" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.databases.clickhouse</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.databases.clickhouse.ClickHouseSettings" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ClickHouseSettings</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic_settings.BaseSettings">BaseSettings</span></code></p>
+
+
+
+        <p>Настройки подключения к ClickHouse, загружаемые из переменных окружения.</p>
+<p>По умолчанию читает переменные <code>CLICKHOUSE_DB</code>, <code>CLICKHOUSE_HOST</code>,
+<code>CLICKHOUSE_PORT</code>, <code>CLICKHOUSE_USER</code>, <code>CLICKHOUSE_PASSWORD</code> из окружения или <code>.env</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_prefix</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">'CLICKHOUSE_'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Загружает настройки ClickHouse с произвольным префиксом переменных.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>prefix</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Префикс переменных окружения (например, <code>"DWH_CLICKHOUSE_"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;CLICKHOUSE_&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            ClickHouseSettings (my_sdk.databases.clickhouse.ClickHouseSettings)" href="#my_sdk.databases.clickhouse.ClickHouseSettings">ClickHouseSettings</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Экземпляр настроек <code>ClickHouseSettings</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/clickhouse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-31" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-31"></a><span class="nd">@classmethod</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-32" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-32"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"CLICKHOUSE_"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ClickHouseSettings"</span><span class="p">:</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-33" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-33"></a><span class="w">    </span><span class="sd">"""Загружает настройки ClickHouse с произвольным префиксом переменных.</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-34" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-34"></a>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-35" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-35"></a><span class="sd">    Args:</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-36" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-36"></a><span class="sd">        prefix: Префикс переменных окружения (например, `"DWH_CLICKHOUSE_"`).</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-37" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-37"></a>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-38" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-38"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-39" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-39"></a><span class="sd">        Экземпляр настроек `ClickHouseSettings`.</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-40" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-40"></a><span class="sd">    """</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-41" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-41"></a>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-42" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-42"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">PrefixedClickHouseSettings</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>  <span class="c1"># type: ignore[valid-type, misc]</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-43" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-43"></a>        <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-44" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-44"></a>            <span class="n">env_prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-45" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-45"></a>            <span class="n">env_file</span><span class="o">=</span><span class="s2">".env"</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-46" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-46"></a>            <span class="n">env_file_encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-47" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-47"></a>            <span class="n">extra</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-48" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-48"></a>        <span class="p">)</span>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-49" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-49"></a>
+<a id="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-50" name="my_sdk.databases.clickhouse.ClickHouseSettings.from_prefix--source--__codelineno-0-50"></a>    <span class="k">return</span> <span class="n">PrefixedClickHouseSettings</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.databases.clickhouse.get_clickhouse_conn" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_clickhouse_conn</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_clickhouse_conn</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">env_prefix</span><span class="o">=</span><span class="s2">"CLICKHOUSE_"</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">init_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="o">**</span><span class="n">client_kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Асинхронный контекстный менеджер для работы с клиентом ClickHouse.</p>
+<p>Автоматически читает параметры подключения из переменных окружения,
+выбирает целевую БД, при необходимости выполняет стартовый DDL-скрипт
+<code>init_query</code> и гарантированно закрывает соединение при выходе из контекста.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>settings</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            ClickHouseSettings (my_sdk.databases.clickhouse.ClickHouseSettings)" href="#my_sdk.databases.clickhouse.ClickHouseSettings">ClickHouseSettings</a> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Готовый объект <code>ClickHouseSettings</code>. Если не передан, загружается
+автоматически по префиксу <code>env_prefix</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>env_prefix</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Префикс переменных окружения (по умолчанию <code>"CLICKHOUSE_"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;CLICKHOUSE_&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>init_query</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Необязательный SQL-запрос инициализации (например, <code>CREATE TABLE IF NOT EXISTS ...</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**client_kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Дополнительные параметры для <code>clickhouse_connect.get_async_client</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Yields:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="collections.abc.AsyncIterator">AsyncIterator</span>[<span title="clickhouse_connect.driver.asyncclient.AsyncClient">AsyncClient</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Активный асинхронный клиент <code>AsyncClient</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/clickhouse.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-83">83</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-84">84</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-85">85</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-86">86</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-87">87</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-88">88</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-89">89</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-90">90</a></span>
+<span class="normal"><a href="#my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-91">91</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-53" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-53"></a><span class="nd">@asynccontextmanager</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-54" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-54"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_clickhouse_conn</span><span class="p">(</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-55" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-55"></a>    <span class="n">settings</span><span class="p">:</span> <span class="n">ClickHouseSettings</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-56" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-56"></a>    <span class="n">env_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"CLICKHOUSE_"</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-57" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-57"></a>    <span class="n">init_query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-58" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-58"></a>    <span class="o">**</span><span class="n">client_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-59" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-59"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">AsyncClient</span><span class="p">]:</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-60" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-60"></a><span class="w">    </span><span class="sd">"""Асинхронный контекстный менеджер для работы с клиентом ClickHouse.</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-61" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-61"></a>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-62" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-62"></a><span class="sd">    Автоматически читает параметры подключения из переменных окружения,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-63" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-63"></a><span class="sd">    выбирает целевую БД, при необходимости выполняет стартовый DDL-скрипт</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-64" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-64"></a><span class="sd">    `init_query` и гарантированно закрывает соединение при выходе из контекста.</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-65" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-65"></a>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-66" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-66"></a><span class="sd">    Args:</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-67" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-67"></a><span class="sd">        settings: Готовый объект `ClickHouseSettings`. Если не передан, загружается</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-68" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-68"></a><span class="sd">            автоматически по префиксу `env_prefix`.</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-69" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-69"></a><span class="sd">        env_prefix: Префикс переменных окружения (по умолчанию `"CLICKHOUSE_"`).</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-70" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-70"></a><span class="sd">        init_query: Необязательный SQL-запрос инициализации (например, `CREATE TABLE IF NOT EXISTS ...`).</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-71" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-71"></a><span class="sd">        **client_kwargs: Дополнительные параметры для `clickhouse_connect.get_async_client`.</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-72" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-72"></a>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-73" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-73"></a><span class="sd">    Yields:</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-74" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-74"></a><span class="sd">        Активный асинхронный клиент `AsyncClient`.</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-75" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-75"></a><span class="sd">    """</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-76" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-76"></a>    <span class="n">cfg</span> <span class="o">=</span> <span class="n">settings</span> <span class="ow">or</span> <span class="n">ClickHouseSettings</span><span class="o">.</span><span class="n">from_prefix</span><span class="p">(</span><span class="n">env_prefix</span><span class="p">)</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-77" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-77"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="n">clickhouse_connect</span><span class="o">.</span><span class="n">get_async_client</span><span class="p">(</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-78" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-78"></a>        <span class="n">database</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">DB</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-79" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-79"></a>        <span class="n">host</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">HOST</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-80" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-80"></a>        <span class="n">port</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PORT</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-81" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-81"></a>        <span class="n">username</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-82" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-82"></a>        <span class="n">password</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PASSWORD</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-83" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-83"></a>        <span class="o">**</span><span class="n">client_kwargs</span><span class="p">,</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-84" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-84"></a>    <span class="p">)</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-85" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-85"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-86" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-86"></a>        <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="sa">f</span><span class="s2">"USE </span><span class="si">{</span><span class="n">cfg</span><span class="o">.</span><span class="n">DB</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-87" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-87"></a>        <span class="k">if</span> <span class="n">init_query</span><span class="p">:</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-88" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-88"></a>            <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">init_query</span><span class="p">)</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-89" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-89"></a>        <span class="k">yield</span> <span class="n">conn</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-90" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-90"></a>    <span class="k">finally</span><span class="p">:</span>
+<a id="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-91" name="my_sdk.databases.clickhouse.get_clickhouse_conn--source--__codelineno-0-91"></a>        <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="redis-my_sdkdatabasesredis_db">Redis (<code>my_sdk.databases.redis_db</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.databases.redis_db" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.databases.redis_db</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="my_sdk.databases.redis_db.RedisSettings" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">RedisSettings</span>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic_settings.BaseSettings">BaseSettings</span></code></p>
+
+
+
+        <p>Настройки подключения к Redis, загружаемые из переменных окружения.</p>
+<p>По умолчанию читает переменную <code>REDIS_URL</code> из окружения или <code>.env</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="my_sdk.databases.redis_db.RedisSettings.from_prefix" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_prefix</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">'REDIS_'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Загружает настройки Redis с произвольным префиксом переменных.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>prefix</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Префикс переменных окружения (например, <code>"CACHE_REDIS_"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;REDIS_&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            RedisSettings (my_sdk.databases.redis_db.RedisSettings)" href="#my_sdk.databases.redis_db.RedisSettings">RedisSettings</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Экземпляр настроек <code>RedisSettings</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/redis_db.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-44">44</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-25" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-25"></a><span class="nd">@classmethod</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-26" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-26"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"REDIS_"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"RedisSettings"</span><span class="p">:</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-27" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-27"></a><span class="w">    </span><span class="sd">"""Загружает настройки Redis с произвольным префиксом переменных.</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-28" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-28"></a>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-29" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-29"></a><span class="sd">    Args:</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-30" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-30"></a><span class="sd">        prefix: Префикс переменных окружения (например, `"CACHE_REDIS_"`).</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-31" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-31"></a>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-32" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-32"></a><span class="sd">    Returns:</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-33" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-33"></a><span class="sd">        Экземпляр настроек `RedisSettings`.</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-34" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-34"></a><span class="sd">    """</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-35" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-35"></a>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-36" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-36"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">PrefixedRedisSettings</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>  <span class="c1"># type: ignore[valid-type, misc]</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-37" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-37"></a>        <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-38" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-38"></a>            <span class="n">env_prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-39" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-39"></a>            <span class="n">env_file</span><span class="o">=</span><span class="s2">".env"</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-40" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-40"></a>            <span class="n">env_file_encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-41" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-41"></a>            <span class="n">extra</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-42" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-42"></a>        <span class="p">)</span>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-43" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-43"></a>
+<a id="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-44" name="my_sdk.databases.redis_db.RedisSettings.from_prefix--source--__codelineno-0-44"></a>    <span class="k">return</span> <span class="n">PrefixedRedisSettings</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.databases.redis_db.get_redis" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_redis</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_redis</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">env_prefix</span><span class="o">=</span><span class="s2">"REDIS_"</span><span class="p">,</span> <span class="o">**</span><span class="n">redis_kwargs</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Асинхронный контекстный менеджер для работы с клиентом Redis.</p>
+<p>Автоматически читает <code>REDIS_URL</code> (или <code>&lt;prefix&gt;URL</code>) из переменных окружения
+и гарантированно закрывает соединение при выходе из блока <code>async with</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>settings</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            RedisSettings (my_sdk.databases.redis_db.RedisSettings)" href="#my_sdk.databases.redis_db.RedisSettings">RedisSettings</a> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Готовый объект <code>RedisSettings</code>. Если не передан, загружается
+из переменных окружения.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>env_prefix</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Префикс переменных окружения (по умолчанию <code>"REDIS_"</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;REDIS_&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**redis_kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Дополнительные параметры для <code>Redis.from_url</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Yields:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="collections.abc.AsyncGenerator">AsyncGenerator</span>[<span title="redis.asyncio.Redis">Redis</span>, None]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Активный асинхронный клиент <code>Redis</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/databases/redis_db.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#my_sdk.databases.redis_db.get_redis--source--__codelineno-0-72">72</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-47" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-47"></a><span class="nd">@asynccontextmanager</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-48" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-48"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_redis</span><span class="p">(</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-49" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-49"></a>    <span class="n">settings</span><span class="p">:</span> <span class="n">RedisSettings</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-50" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-50"></a>    <span class="n">env_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"REDIS_"</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-51" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-51"></a>    <span class="o">**</span><span class="n">redis_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-52" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-52"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncGenerator</span><span class="p">[</span><span class="n">Redis</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-53" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-53"></a><span class="w">    </span><span class="sd">"""Асинхронный контекстный менеджер для работы с клиентом Redis.</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-54" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-54"></a>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-55" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-55"></a><span class="sd">    Автоматически читает `REDIS_URL` (или `&lt;prefix&gt;URL`) из переменных окружения</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-56" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-56"></a><span class="sd">    и гарантированно закрывает соединение при выходе из блока `async with`.</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-57" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-57"></a>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-58" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-58"></a><span class="sd">    Args:</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-59" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-59"></a><span class="sd">        settings: Готовый объект `RedisSettings`. Если не передан, загружается</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-60" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-60"></a><span class="sd">            из переменных окружения.</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-61" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-61"></a><span class="sd">        env_prefix: Префикс переменных окружения (по умолчанию `"REDIS_"`).</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-62" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-62"></a><span class="sd">        **redis_kwargs: Дополнительные параметры для `Redis.from_url`.</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-63" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-63"></a>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-64" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-64"></a><span class="sd">    Yields:</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-65" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-65"></a><span class="sd">        Активный асинхронный клиент `Redis`.</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-66" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-66"></a><span class="sd">    """</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-67" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-67"></a>    <span class="n">cfg</span> <span class="o">=</span> <span class="n">settings</span> <span class="ow">or</span> <span class="n">RedisSettings</span><span class="o">.</span><span class="n">from_prefix</span><span class="p">(</span><span class="n">env_prefix</span><span class="p">)</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-68" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-68"></a>    <span class="n">redis_client</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">URL</span><span class="p">,</span> <span class="o">**</span><span class="n">redis_kwargs</span><span class="p">)</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-69" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-69"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-70" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-70"></a>        <span class="k">yield</span> <span class="n">redis_client</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-71" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-71"></a>    <span class="k">finally</span><span class="p">:</span>
+<a id="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-72" name="my_sdk.databases.redis_db.get_redis--source--__codelineno-0-72"></a>        <span class="k">await</span> <span class="n">redis_client</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="fastapi-depends-my_sdkdependssession">FastAPI Depends (<code>my_sdk.depends.session</code>)</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="my_sdk.depends.session" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">my_sdk.depends.session</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="my_sdk.depends.session.Session" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">Session</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Session</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_async_db</span><span class="p">)]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Готовый тип-алиас для инъекции <code>AsyncSession</code> в роуты FastAPI (<code>session: Session</code>).</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="my_sdk.depends.session.get_async_db" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_async_db</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_async_db</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>FastAPI-зависимость для предоставления асинхронной сессии SQLAlchemy.</p>
+<p>Открывает сессию через <code>async_session()</code> на время обработки HTTP-запроса
+и гарантированно закрывает её после завершения запроса.</p>
+
+
+    <p><span class="doc-section-title">Yields:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="collections.abc.AsyncIterator">AsyncIterator</span>[<span title="sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Активная асинхронная сессия <code>AsyncSession</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>my_sdk/depends/session.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#my_sdk.depends.session.get_async_db--source--__codelineno-0-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-10" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_async_db</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">]:</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-11" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-11"></a><span class="w">    </span><span class="sd">"""FastAPI-зависимость для предоставления асинхронной сессии SQLAlchemy.</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-12" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-12"></a>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-13" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-13"></a><span class="sd">    Открывает сессию через `async_session()` на время обработки HTTP-запроса</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-14" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-14"></a><span class="sd">    и гарантированно закрывает её после завершения запроса.</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-15" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-15"></a>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-16" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-16"></a><span class="sd">    Yields:</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-17" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-17"></a><span class="sd">        Активная асинхронная сессия `AsyncSession`.</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-18" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-18"></a><span class="sd">    """</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-19" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-19"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">get_async_session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+<a id="my_sdk.depends.session.get_async_db--source--__codelineno-0-20" name="my_sdk.depends.session.get_async_db--source--__codelineno-0-20"></a>        <span class="k">yield</span> <span class="n">session</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
