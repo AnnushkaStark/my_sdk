@@ -1,0 +1,88 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "my_sdk"
+version = "0.1.0"
+description=""
+readme = "Readme.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.27.0",
+    "fastapi>=0.110.0",
+    "authlib>=1.3.1",
+    "loguru>=0.7.2",
+    "sqlalchemy>=2.0.0",
+    "phonenumbers>=8.13.0",
+    "pydantic-settings>=2.12.0",
+    "pytest>=9.1.1",
+    "aioredis>=2.0.1",
+    "redis>=8.1.0",
+    "aiokafka>=0.14.0",
+    "ruff>=0.16.2",
+    "pyjwt>=2.13.0",
+    "fastapi-pagination>=0.15.16",
+    "aioboto3>=15.5.0",
+    "clickhouse-connect>=1.13.0",
+    "mail>=2.1.0",
+    "fastapi-mail>=1.6.8",
+    "opentelemetry-exporter-otlp-proto-grpc>=1.41.1",
+    "opentelemetry-instrumentation-fastapi>=0.66b2",
+    "opentelemetry-instrumentation-httpx>=0.66b2",
+    "opentelemetry-instrumentation-logging>=0.66b2",
+    "opentelemetry-instrumentation-sqlalchemy>=0.66b2",
+    "prometheus-client>=0.26.0",
+    "pyroscope-io>=1.4.0",
+    "pyroscope-otel>=1.1.0",
+]
+
+
+[tool.setuptools]
+
+package-dir = {"my_sdk" = "my_sdk"}
+
+packages = [
+    "my_sdk.databases",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-include = ["my_sdk"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "SIM"
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ty]
+
+[tool.ty.src]
+include = ["my_sdk"]
+
+[tool.ty.terminal]
+error-on-warning = true
+output-format = "concise"
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.8.2",
+    "mkdocstrings[python]>=1.0.8",
+]
