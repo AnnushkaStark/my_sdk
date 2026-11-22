@@ -1,5 +1,7 @@
 # my_sdk — Асинхронный «all-inclusive» SDK для микросервисов на FastAPI
 
+[Docs](https://shields.io)](https://annushkastark.github.io/my_sdk/)
+
 
 **`my_sdk`** —  библиотека (*microservice chassis*), чтобы превратить  **FastAPI** ... в джанго)))  в полноценный фреймворк «с батарейками в коробке».
 
